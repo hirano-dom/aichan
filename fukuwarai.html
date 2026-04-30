@@ -187,6 +187,27 @@ h2{font-size:1.2rem;font-weight:900;margin:8px 0}
 </style>
 </head>
 <body>
+
+<!-- パスワード画面 -->
+<div id="pw-screen" style="max-width:400px;margin:5rem auto;padding:2rem;text-align:center;font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;">
+  <div style="font-size:60px;margin-bottom:1rem;">🌸</div>
+  <h2 style="font-size:22px;font-weight:700;margin-bottom:.5rem;color:#2c2c2a;">あいちゃん</h2>
+  <p style="font-size:14px;color:#888;margin-bottom:1.5rem;">パスワードを入力してください</p>
+  <input type="password" id="fw-pw-input"
+    placeholder="パスワード"
+    style="width:100%;padding:13px 15px;border:2px solid #ccc;border-radius:8px;
+           font-size:16px;margin-bottom:1rem;box-sizing:border-box;text-align:center;
+           font-family:inherit;"
+    onkeydown="if(event.key==='Enter')fwCheckPassword()">
+  <button onclick="fwCheckPassword()"
+    style="width:100%;padding:14px;border:none;border-radius:8px;background:#534AB7;
+           color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;">
+    入る →
+  </button>
+  <p id="fw-pw-error" style="color:#e24b4a;font-size:13px;margin-top:.75rem;min-height:1.2em;"></p>
+</div>
+
+<div id="fw-main" style="display:none;width:100%;display:none">
 <h1>🌸 あいちゃん 🌸</h1>
 <button class="nurse-link" id="nurseLink" onclick="goNurseMenu()">🩺 看護師</button>
 
@@ -1675,8 +1696,7 @@ function buildUserList(){
     var btn = document.createElement('button');
     btn.style.cssText = 'padding:16px;font-size:1.1rem;font-weight:700;background:#fff;border:2px solid #217346;border-radius:12px;cursor:pointer;text-align:left;color:#1B5E20';
     btn.innerHTML = '<span style="font-size:.85rem;color:#888">ID '+u.id+'</span><br>'+u.name+' さん';
-    (functfunction getApiKey() {
-on(user){ btn.onclick = function(){ selectUser(user); }; })(u);
+    (function(user){ btn.onclick = function(){ selectUser(user); }; })(u);
     div.appendChild(btn);
   }
 }
@@ -2088,6 +2108,28 @@ pgLoadPhotos();
 </div>
 
 <div class="confetti-box" id="jb_confettiBox" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:100;overflow:hidden"></div>
+
+</div><!-- fw-main 終わり -->
+
+<script>
+/* パスワード認証（福笑い用） */
+const FW_PASSWORD = 'mh4141';
+
+function fwCheckPassword() {
+  const input = document.getElementById('fw-pw-input').value;
+  if (input === FW_PASSWORD) {
+    document.getElementById('pw-screen').style.display = 'none';
+    document.getElementById('fw-main').style.display = 'block';
+    goFukuSelect();
+  } else {
+    document.getElementById('fw-pw-error').textContent = 'パスワードが違います';
+    document.getElementById('fw-pw-input').value = '';
+    setTimeout(() => {
+      document.getElementById('fw-pw-error').textContent = '';
+    }, 2000);
+  }
+}
+</script>
 
 </body>
 </html>
