@@ -1675,7 +1675,8 @@ function buildUserList(){
     var btn = document.createElement('button');
     btn.style.cssText = 'padding:16px;font-size:1.1rem;font-weight:700;background:#fff;border:2px solid #217346;border-radius:12px;cursor:pointer;text-align:left;color:#1B5E20';
     btn.innerHTML = '<span style="font-size:.85rem;color:#888">ID '+u.id+'</span><br>'+u.name+' さん';
-    (function(user){ btn.onclick = function(){ selectUser(user); }; })(u);
+    (functfunction getApiKey() {
+on(user){ btn.onclick = function(){ selectUser(user); }; })(u);
     div.appendChild(btn);
   }
 }
