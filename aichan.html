@@ -879,7 +879,7 @@ if (ta) {
    ===================================================== */
 function getApiKey() {
   try {
-    return localStorage.getItem('aichan_openai_key') || '';
+    return localStorage.getItem('aichan-openai-key') || '';
   } catch(e) {
     return '';
   }
@@ -887,13 +887,13 @@ function getApiKey() {
 
 function saveApiKey(key) {
   try {
-    localStorage.setItem('aichan_openai_key', key);
+    localStorage.setItem('aichan-openai-key');
   } catch(e) {}
 }
 
 function clearApiKey() {
   try {
-    localStorage.removeItem('aichan_openai_key');
+    localStorage.removeItem('aichan-openai-key');
   } catch(e) {}
 }
 
