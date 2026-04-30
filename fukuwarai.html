@@ -197,7 +197,7 @@ h2{font-size:1.2rem;font-weight:900;margin:8px 0}
   <button onclick="goFukuSelect()" style="width:260px;padding:22px 0;font-size:1.4rem;font-weight:900;border:none;border-radius:20px;background:linear-gradient(135deg,#E07A9A,#C04070);color:#fff;box-shadow:0 6px 20px rgba(192,64,112,.4);cursor:pointer;letter-spacing:.05em">
     😄 まずは福笑い
   </button>
-  <button onclick="goKaiwa()" style="width:260px;padding:22px 0;font-size:1.4rem;font-weight:900;border:none;border-radius:20px;background:linear-gradient(135deg,#5A9E5E,#3A7A3E);color:#fff;box-shadow:0 6px 20px rgba(58,122,62,.35);cursor:pointer;letter-spacing:.05em">
+  <button onclick="window.location.href='aichan.html'" style="width:260px;padding:22px 0;font-size:1.4rem;font-weight:900;border:none;border-radius:20px;background:linear-gradient(135deg,#5A9E5E,#3A7A3E);color:#fff;box-shadow:0 6px 20px rgba(58,122,62,.35);cursor:pointer;letter-spacing:.05em">
     💬 会話を始める
   </button>
 </div>
@@ -1791,25 +1791,8 @@ function saveApiKey(){
 }
 
 function goKaiwa(){
-  // 保存済み利用者を復元
-  if(!currentUser){
-    try{
-      var saved = localStorage.getItem('aichan-current-user');
-      if(saved) currentUser = JSON.parse(saved);
-    }catch(e){}
-  }
-  if(!currentUser){
-    goUserSelect();
-    return;
-  }
-  kwApiKey = getApiKey();
-  if(!kwApiKey){
-    show('scrApiKey');
-    return;
-  }
-  kwStartKaiwa();
+  window.location.href='aichan.html';
 }
-
 function kwStartKaiwa(){
   kwIdx = -1; kwSelected = ''; kwChatHistory = []; kwRecords = [];
   kwRoute = 'R1_全員';
