@@ -4,19 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>おかめ福笑い</title>
-<script>
-// 誤操作防止
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('keydown', e => {
-  if (e.key === 'F12') e.preventDefault();
-  if (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) e.preventDefault();
-  if (e.ctrlKey && e.key === 'U') e.preventDefault();
-  if (e.ctrlKey && e.key === 'S') e.preventDefault();
-});
-document.addEventListener('selectstart', e => {
-  if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') e.preventDefault();
-});
-</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -1616,6 +1603,7 @@ function kwStartVoice(){
 
   if(kwListening){ kwStopVoice(); return; }
 
+  if(!kwRecog){  // ← 最初の1回だけ作成
   kwRecog = new SpeechRecognition();
   kwRecog.lang = 'ja-JP';
   kwRecog.continuous = false;
@@ -1656,6 +1644,7 @@ function kwStartVoice(){
     var btn = document.getElementById('kwVoiceBtn');
     if(btn){ btn.textContent = '🎤 声で答える'; btn.style.background = '#7B1FA2'; }
   };
+  }  // ← if(!kwRecog) ここまで
 
   kwRecog.start();
 }
@@ -1812,8 +1801,11 @@ var kwChatHistory = [];
 var kwRecords = []; // 時系列記録
 var kwApiKey = '';
 
+// ★★★ APIキーをここに入力すると毎回聞かれません ★★★
+var DEFAULT_API_KEY = '';  // ← sk-proj-... をここに貼り付ける
+
 function getApiKey(){
-  return localStorage.getItem('aichan-openai-key') || '';
+  return localStorage.getItem('aichan-openai-key') || DEFAULT_API_KEY;
 }
 
 function saveApiKey(){
