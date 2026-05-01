@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>あいちゃん 三択物語</title>
+<script>
+// 誤操作防止
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (e.key === 'F12') e.preventDefault();
+  if (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) e.preventDefault();
+  if (e.ctrlKey && e.key === 'U') e.preventDefault();
+  if (e.ctrlKey && e.key === 'S') e.preventDefault();
+});
+document.addEventListener('selectstart', e => {
+  if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') e.preventDefault();
+});
+</script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -883,7 +896,7 @@ function getApiKey() {
   const DIRECT_KEY = '';
   if (DIRECT_KEY) return DIRECT_KEY;
   try {
-    return localStorage.getItem('aichan-openai-key') || '';
+    return localStorage.getItem('aichan_openai_key') || '';
   } catch(e) {
     return '';
   }
@@ -891,13 +904,13 @@ function getApiKey() {
 
 function saveApiKey(key) {
   try {
-    localStorage.setItem('aichan-openai-key', key);
+    localStorage.setItem('aichan_openai_key', key);
   } catch(e) {}
 }
 
 function clearApiKey() {
   try {
-    localStorage.removeItem('aichan-openai-key');
+    localStorage.removeItem('aichan_openai_key');
   } catch(e) {}
 }
 
