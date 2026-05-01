@@ -946,7 +946,7 @@ if (ta) {
 function getApiKey() {
   // ★★★ APIキーをここに貼り付けてください ★★★
   // 下の '' の中に sk- で始まるキーを入れてください
-  const DIRECT_KEY = '';
+  const DIRECT_KEY = ''; // ← ここにsk-で始まるAPIキーを貼り付けてください
   if (DIRECT_KEY) return DIRECT_KEY;
   try {
     return localStorage.getItem('aichan-openai-key') || '';
@@ -1346,18 +1346,9 @@ function checkPassword() {
       saveApiKey(apiInput);
     }
     document.getElementById('pw-screen').style.display = 'none';
-    try {
-      const key = getApiKey();
-      if (key && key.length >= 20) {
-        document.getElementById('key-screen').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        renderStep('q1');
-      } else {
-        document.getElementById('key-screen').style.display = 'block';
-      }
-    } catch(e) {
-      document.getElementById('key-screen').style.display = 'block';
-    }
+    document.getElementById('key-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    renderStep('q1');
   } else {
     document.getElementById('pw-error').textContent = 'パスワードが違います';
     document.getElementById('pw-input').value = '';
