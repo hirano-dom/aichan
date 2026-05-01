@@ -852,6 +852,36 @@ function updateMessage(id, text) {
   el.classList.remove('loading');
   el.querySelector('.msg-ai-bubble').textContent = text;
   document.getElementById('messages').scrollTop = 99999;
+  // あいちゃんの返答を音声で読み上げる
+  speakAichan(text);
+}
+
+/* =====================================================
+   あいちゃん音声読み上げ（Web Speech API）
+   ===================================================== */
+function speakAichan(text) {
+  if (!window.speechSynthesis) return;
+  // 読み上げ中は停止してから開始
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'ja-JP';
+  utter.rate = 0.9;   // 少しゆっくり
+  utter.pitch = 1.1;  // 少し高め（女性っぽく）
+  // 読み上げ開始時にマイクをオフ
+  utter.onstart = () => {
+    if (micEnabled && recognition) {
+      try { recognition.stop(); } catch(e) {}
+    }
+  };
+  // 読み上げ終了時にマイクをオン
+  utter.onend = () => {
+    if (chatActive && micEnabled) {
+      setTimeout(() => {
+        try { recognition.start(); } catch(e) {}
+      }, 500);
+    }
+  };
+  window.speechSynthesis.speak(utter);
 }
 
 /* =====================================================
@@ -859,6 +889,7 @@ function updateMessage(id, text) {
    ===================================================== */
 function restart() {
   stopMicSession();
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
   stepNum = 0; pathLog = []; job = null; chatHistory = []; selectedOpt = null;
   document.getElementById('ph-chat').style.display   = 'none';
   document.getElementById('ph-result').style.display = 'none';
