@@ -8,8 +8,6 @@
 // 誤操作防止
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('keydown', e => {
-  if (e.key === 'F12') e.preventDefault();
-  if (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) e.preventDefault();
   if (e.ctrlKey && e.key === 'U') e.preventDefault();
   if (e.ctrlKey && e.key === 'S') e.preventDefault();
 });
@@ -322,6 +320,12 @@ body {
     style="width:100%;padding:13px 15px;border:2px solid #ccc;border-radius:8px;
            font-size:16px;margin-bottom:1rem;box-sizing:border-box;text-align:center;
            font-family:inherit;"
+    onkeydown="if(event.key==='Enter')checkPassword()">
+  <input type="text" id="pw-apikey"
+    placeholder="APIキー（sk-...）初回のみ"
+    style="width:100%;padding:13px 15px;border:2px solid #ccc;border-radius:8px;
+           font-size:13px;margin-bottom:1rem;box-sizing:border-box;text-align:center;
+           font-family:monospace;color:#666;"
     onkeydown="if(event.key==='Enter')checkPassword()">
   <button onclick="checkPassword()"
     style="width:100%;padding:14px;border:none;border-radius:8px;background:#534AB7;
@@ -1286,6 +1290,11 @@ const PASSWORD = 'mh4141'
 function checkPassword() {
   const input = document.getElementById('pw-input').value;
   if (input === PASSWORD) {
+    // APIキーが入力されていれば保存
+    const apiInput = document.getElementById('pw-apikey').value.trim();
+    if (apiInput && apiInput.startsWith('sk-')) {
+      saveApiKey(apiInput);
+    }
     document.getElementById('pw-screen').style.display = 'none';
     try {
       const key = getApiKey();
